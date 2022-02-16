@@ -1,0 +1,32 @@
+{
+  "name": "kufar-reader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "debug": "nodemon ./src/index.js"
+  },
+  "author": "Sultinius",
+  "license": "ISC",
+  "dependencies": {
+    "audic": "^3.0.0",
+    "audio-loader": "^1.0.3",
+    "audio-play": "^2.3.1",
+    "dom-parser": "^0.1.6",
+    "html-dom-parser": "^1.1.0",
+    "jsdom": "^19.0.0",
+    "node-fetch": "^3.2.0",
+    "nodemon": "^2.0.15",
+    "play-sound": "^1.1.5",
+    "sound-play": "^1.1.0",
+    "vk-io": "^4.4.0",
+    "webpack": "^5.68.0"
+  },
+  "devDependencies": {
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack-cli": "^4.9.2"
+  }
+}

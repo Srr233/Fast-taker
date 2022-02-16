@@ -1,0 +1,1 @@
+# To be succeed in buying a good things
