@@ -22,12 +22,14 @@ async function main() {
             const dom = new JSDOM(stringHTML);
 
 
-            const things = await getThings(
-                dom, dataOrigin.regexp,
-                dataOrigin.tagOfWholeThing, dataOrigin.tagOfSearchingSpecialWordsRegexp,
-                dataOrigin.advertisingContent, dataOrigin.whereIsAdvertisingTag,
-                dataOrigin.specialWordsRegexp
-            );
+            // const things = await getThings(
+            //     dom, dataOrigin.regexp,
+            //     dataOrigin.tagOfWholeThing, dataOrigin.tagOfSearchingSpecialWordsRegexp,
+            //     dataOrigin.advertisingContent, dataOrigin.whereIsAdvertisingTag,
+            //     dataOrigin.specialWordsRegexp
+            // );
+
+            const things = await getThings(dom, dataOrigin);
 
 
             if (lastThingLink[dataOrigin.link] && things[0].link !== lastThingLink[dataOrigin.link]) {
