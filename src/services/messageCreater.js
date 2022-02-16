@@ -3,8 +3,7 @@ function createMessage(flats) {
 
     flats.forEach(flat => {
         messages.push(
-            `Ссылка: ${flat.link}
-             Цена: ${flat.cost}`
+            `Link: ${flat.link}`
         );
     });
 

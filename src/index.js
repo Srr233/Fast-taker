@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
 import fetch from 'node-fetch';
-import getFlats from './services/getFlats.js';
+import getThings from './services/getThings.js';
 import createMessage from './services/messageCreater.js';
 import path from 'path';
 import sound from 'sound-play';
@@ -11,7 +11,7 @@ const __dirname = path.resolve();
 const notification = path.join(__dirname, "src", "sound", "notification.mp3");
 const error_sound = path.join(__dirname, "src", "sound", "error_sound.mp3");
 
-const lastFlatLink = {};
+const lastThingLink = {};
 const readWriterConfig = new ReadWriter('/src/configs/main.config.json');
 async function main() {
     try {
@@ -20,22 +20,30 @@ async function main() {
             const response = await fetch(dataOrigin.link);
             const stringHTML = await response.text();
             const dom = new JSDOM(stringHTML);
-            const flats = await getFlats(dom, dataOrigin.regexp, dataOrigin.tag, dataOrigin.tagForCost);
 
-            if (lastFlatLink[dataOrigin.link] && flats[0].link !== lastFlatLink[dataOrigin.link]) {
-                const index = flats.findIndex(flat => flat.link === lastFlatLink[dataOrigin.link]);
-                const newFlats = flats.slice(0, index);
-                if (newFlats.length) {
+
+            const things = await getThings(
+                dom, dataOrigin.regexp,
+                dataOrigin.tagOfWholeThing, dataOrigin.tagOfSearchingSpecialWordsRegexp,
+                dataOrigin.advertisingContent, dataOrigin.whereIsAdvertisingTag,
+                dataOrigin.specialWordsRegexp
+            );
+
+
+            if (lastThingLink[dataOrigin.link] && things[0].link !== lastThingLink[dataOrigin.link]) {
+                const index = things.findIndex(flat => flat.link === lastThingLink[dataOrigin.link]);
+                const newThings = things.slice(0, index);
+                if (newThings.length) {
                     console.log('--------------------------------------------');
-                    sendMessage(createMessage(flats.slice(0, index)));
+                    sendMessage(createMessage(things.slice(0, index)));
                     console.log('--------------------------------------------');
-                    lastFlatLink[dataOrigin.link] = newFlats[0].link;
+                    lastThingLink[dataOrigin.link] = newThings[0].link;
                     sound.play(notification);
                 }
-            } else if (!lastFlatLink[dataOrigin.link]) {
-                lastFlatLink[dataOrigin.link] = flats[0].link;
+            } else if (!lastThingLink[dataOrigin.link]) {
+                lastThingLink[dataOrigin.link] = things[0].link;
                 console.log('--------------------------------------------');
-                sendMessage(createMessage(flats.slice(0, 1)));
+                sendMessage(createMessage(things.slice(0, 1)));
                 console.log('--------------------------------------------');
                 sound.play(notification);
             }
