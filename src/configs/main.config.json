@@ -1,15 +1,5 @@
 [
     {
-        "link":"https://www.kufar.by/l/r~minsk-frunzenskij/myagkaya-mebel?ot=1&query=%D0%94%D0%B8%D0%B2%D0%B0%D0%BD%20%D1%83%D0%B3%D0%BB%D0%BE%D0%B2%D0%BE%D0%B9&utm_search=Category%20only",
-        "regexp": "www\\.kufar\\.by/item",
-        "specialWordsRegexp": "Мягкая\\sмебель,\\sб/у",
-        "tagOfSearchingSpecialWordsRegexp": "p", 
-        "tagOfWholeThing": "a",
-
-        "advertisingContent": "https://content.kufar.by/static/frontend/svg/paid-services-card/v2/vip.svg",
-        "whereIsAdvertisingTag": "img"
-    },
-    {
         "link":"https://re.kufar.by/l/brest/snyat/kvartiru-dolgosrochno?cur=USD&prc=r%3A120%2C185&size=30",
         "regexp": "re\\.kufar\\.by/vi/brest",
         "tagOfWholeThing": "a",
