@@ -1,8 +1,3 @@
-// function shielding(text) {
-//     const regexpCharacters = ['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+', '(', ')', '=', ';', ':'];
-//     return regexpCharacters.reduce((all, sym) => all.split(sym).join('\\' + sym), text)
-// }
-
 function putTogetherAllProperties(arrayOfObjects, link) {
     const result = {};
     arrayOfObjects.forEach(val => {
@@ -13,13 +8,12 @@ function putTogetherAllProperties(arrayOfObjects, link) {
             result[nameOfProp] = [val[nameOfProp]];
         }
     });
-    result.link = [link];
+    result.link = link;
     return result;
 }
 
 function parseFields(things, properties) {
     const allParsedProperties = [];
-    // Сделать так, чтобы наименование пропертисов было в цикле и пушилось
     things.forEach(thing => {
         const allProperties = [];
         properties.forEach(property => {
@@ -30,19 +24,19 @@ function parseFields(things, properties) {
                         allProperties.push({ [property.nameOfProperty]: elem[property.propertyOfElement] });
                     }
                 }
-                // console.error(`Element "${elem.tagName}" doesn't have the content of "${property.propertyOfElement}" by regexp "${property.contentRegExp}"`);
             });
         });
-        const link = thing.getAttribute('href'); // Can be bad because it can use other things
+        const link = thing.getAttribute('href');
         allParsedProperties.push(putTogetherAllProperties(allProperties, link));
     });
     return allParsedProperties;
 }
 
 async function getThings(dom, options) {
-    const { tagOfWholeThing, catchThings, avoidThings, regexp, properties } = options;
+    const { tagOfWholeThing, catchThings, avoidThings, regexp, propertiesOfElement } = options;
 
     const linkTags = dom.window.document.querySelectorAll(tagOfWholeThing);
+
     let blockOfThings = Array.from(linkTags).filter(elem => elem.getAttribute('href').match(new RegExp(regexp, 'gim')));
 
     if (catchThings.length) {
@@ -53,7 +47,6 @@ async function getThings(dom, options) {
                     .filter(elem => elem[catchThing.propertyOfElement]
                         .match(new RegExp(catchThing.contentRegExp, 'gim')));
                 if (!filteredByContent.length) {
-                    console.log('Didn\'t catch');
                     return false;
                 }
                 return true;
@@ -68,13 +61,12 @@ async function getThings(dom, options) {
                 const filteredByContent = selectedElements
                     .filter(elem => elem[avoidThing.propertyOfElement]
                         .match(new RegExp(avoidThing.contentRegExp, 'gim')));
-                if (filteredByContent.length) return true;
-                console.log('Didn\'t avoid');
-                return false;
+                if (filteredByContent.length) return false;
+                return true;
             });
         });
     }
-    return parseFields(blockOfThings, properties);
+    return parseFields(blockOfThings, propertiesOfElement);
 }
 
 export default getThings;

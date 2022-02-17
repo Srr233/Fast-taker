@@ -1,3 +1,4 @@
+// import { parse } from 'node-html-parser';
 import { JSDOM } from 'jsdom';
 import fetch from 'node-fetch';
 import getThings from './services/getThings.js';
@@ -19,15 +20,8 @@ async function main() {
         for (const dataOrigin of configData) {
             const response = await fetch(dataOrigin.link);
             const stringHTML = await response.text();
+            // const dom = parse(stringHTML);
             const dom = new JSDOM(stringHTML);
-
-
-            // const things = await getThings(
-            //     dom, dataOrigin.regexp,
-            //     dataOrigin.tagOfWholeThing, dataOrigin.tagOfSearchingSpecialWordsRegexp,
-            //     dataOrigin.advertisingContent, dataOrigin.whereIsAdvertisingTag,
-            //     dataOrigin.specialWordsRegexp
-            // );
 
             const things = await getThings(dom, dataOrigin);
 
@@ -43,11 +37,13 @@ async function main() {
                     sound.play(notification);
                 }
             } else if (!lastThingLink[dataOrigin.link]) {
-                lastThingLink[dataOrigin.link] = things[0].link;
-                console.log('--------------------------------------------');
-                sendMessage(createMessage(things.slice(0, 1)));
-                console.log('--------------------------------------------');
-                sound.play(notification);
+                if (things[0]) {
+                    lastThingLink[dataOrigin.link] = things[0].link;
+                    console.log('--------------------------------------------');
+                    sendMessage(createMessage(things.slice(0, 1)));
+                    console.log('--------------------------------------------');
+                    sound.play(notification);
+                }
             }
         }
         setTimeout(main, 60000);
