@@ -1,3 +1,19 @@
 [
-    
+    {
+        "link": "https://re.kufar.by/l/brest/snyat/kvartiru-dolgosrochno?cur=USD&prc=r%3A120%2C185&size=30",
+        "regexp": "re\\.kufar\\.by/vi/brest",
+        "tagOfWholeThing": "a",
+        "catchThings": [{
+            "selector": "div",
+            "contentRegExp": "Квартиры\\s/\\sАренда",
+            "propertyOfElement": "textContent"
+        }],
+        "avoidThings": [],
+        "propertiesOfElement": [{
+            "nameOfProperty": "money",
+            "selector": "span",
+            "contentRegExp": "\\$",
+            "propertyOfElement": "textContent"
+        }]
+    }
 ]

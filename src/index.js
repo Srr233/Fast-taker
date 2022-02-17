@@ -27,7 +27,7 @@ async function main() {
 
 
             if (lastThingLink[dataOrigin.link] && things[0].link !== lastThingLink[dataOrigin.link]) {
-                const index = things.findIndex(flat => flat.link === lastThingLink[dataOrigin.link]);
+                const index = things.findIndex(thing => thing.link === lastThingLink[dataOrigin.link]);
                 const newThings = things.slice(0, index);
                 if (newThings.length) {
                     console.log('--------------------------------------------');
