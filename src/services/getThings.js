@@ -27,7 +27,7 @@ function parseFields(things, properties, property) {
             const allSelectorThingElements = Array.from(thing.querySelectorAll(property.selector));
             allSelectorThingElements.forEach(elem => {
                 if (elem[property.propertyOfElement]) {
-                    if (elem[property.propertyOfElement].match(new RegExp(property.contentRegExp, 'gim'))) {
+                    if (elem[property.propertyOfElement].match(new RegExp(property.content, 'gim'))) {
                         allProperties.push({ [property.nameOfProperty]: elem[property.propertyOfElement] });
                     }
                 }
@@ -58,8 +58,19 @@ async function getThings(dom, options) {
             blockOfThings = blockOfThings.filter(thing => {
                 const selectedElements = Array.from(thing.querySelectorAll(catchThing.selector));
                 const filteredByContent = selectedElements
-                    .filter(elem => elem[catchThing.propertyOfElement]
-                        .match(new RegExp(catchThing.contentRegExp, 'gim')));
+                    .filter(elem => {
+                        let result = false;
+                        if (catchThing.isFunction && catchThing.argumentForFunction) {
+                            result = elem[catchThing.propertyOfElement](catchThing.argumentForFunction)
+                                .match(new RegExp(catchThing.content, 'gim'))
+                        } else if (!catchThing.isFunction && !catchThing.argumentForFunction) {
+                            result = elem[catchThing.propertyOfElement]
+                                .match(new RegExp(catchThing.content, 'gim'))
+                        } else {
+                            throw new Error(`function in configuration doesn't exist or argument didn't provide!`);
+                        }
+                        return result;
+                    });
                 if (!filteredByContent.length) {
                     return false;
                 }
@@ -73,8 +84,19 @@ async function getThings(dom, options) {
             blockOfThings = blockOfThings.filter(thing => {
                 const selectedElements = Array.from(thing.querySelectorAll(avoidThing.selector));
                 const filteredByContent = selectedElements
-                    .filter(elem => elem[avoidThing.propertyOfElement]
-                        .match(new RegExp(avoidThing.contentRegExp, 'gim')));
+                    .filter(elem => {
+                        let result = '';
+                        if (avoidThing.isFunction && avoidThing.argumentForFunction) {
+                            result = elem[avoidThing.propertyOfElement](avoidThing.argumentForFunction)
+                                .match(new RegExp(catchThing.content, 'gim'))
+                        } else if (!avoidThing.isFunction && !avoidThing.argumentForFunction) {
+                            result = elem[avoidThing.propertyOfElement]
+                                .match(new RegExp(avoidThing.content, 'gim'))
+                        } else {
+                            throw new Error(`function in configuration doesn't exist or argument didn't provide!`);
+                        }
+                        return result;
+                    });
                 if (filteredByContent.length) return false;
                 return true;
             });

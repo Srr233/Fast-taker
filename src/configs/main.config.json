@@ -1,21 +1,28 @@
 [
     {
-        "link": "https://baraholka.onliner.by/viewforum.php?f=788&sk=created",
-        "regexp": "",
-        "tagOfWholeThing": "tr",
-        "property": "",
-        "prefixForLink": "https://baraholka.onliner.by/",
+        "link": "https://re.kufar.by/l/brest/snyat/kvartiru-dolgosrochno?cur=USD&prc=r%3A120%2C185&size=30",
+        "regexp": "re\\.kufar\\.by/vi/brest",
+        "tagOfWholeThing": "a",
+        "property": "href",
         "catchThings": [{
-            "selector": "a",
-            "contentRegExp": "viewtopic\\.php\\?t=",
-            "propertyOfElement": "href"
+            "selector": "div",
+            "content": "Квартиры\\s/\\sАренда",
+            "propertyOfElement": "textContent",
+            "argumentForFunction": "",
+            "isFunction": false
         }],
         "avoidThings": [],
         "propertiesOfElement": [{
-            "nameOfProperty": "link",
-            "selector": "a",
-            "contentRegExp": "viewtopic\\.php\\?t=",
-            "propertyOfElement": "href"
+            "nameOfProperty": "money",
+            "selector": "span",
+            "content": "\\$|р\\.",
+            "propertyOfElement": "textContent"
+        },
+        {
+            "nameOfProperty": "place",
+            "selector": "span",
+            "content": "Брест",
+            "propertyOfElement": "textContent"
         }]
     }
 ]
