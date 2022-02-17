@@ -20,18 +20,16 @@ async function main() {
         for (const dataOrigin of configData) {
             const response = await fetch(dataOrigin.link);
             const stringHTML = await response.text();
-            // const dom = parse(stringHTML);
             const dom = new JSDOM(stringHTML);
 
             const things = await getThings(dom, dataOrigin);
-
 
             if (lastThingLink[dataOrigin.link] && things[0].link !== lastThingLink[dataOrigin.link]) {
                 const index = things.findIndex(flat => flat.link === lastThingLink[dataOrigin.link]);
                 const newThings = things.slice(0, index);
                 if (newThings.length) {
                     console.log('--------------------------------------------');
-                    sendMessage(createMessage(things.slice(0, index)));
+                    sendMessage(createMessage(things.slice(0, index), dataOrigin.prefixForLink));
                     console.log('--------------------------------------------');
                     lastThingLink[dataOrigin.link] = newThings[0].link;
                     sound.play(notification);
@@ -40,7 +38,7 @@ async function main() {
                 if (things[0]) {
                     lastThingLink[dataOrigin.link] = things[0].link;
                     console.log('--------------------------------------------');
-                    sendMessage(createMessage(things.slice(0, 1)));
+                    sendMessage(createMessage(things.slice(0, 1), dataOrigin.prefixForLink));
                     console.log('--------------------------------------------');
                     sound.play(notification);
                 }

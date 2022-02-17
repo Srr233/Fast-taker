@@ -1,3 +1,21 @@
 [
-    
+    {
+        "link": "https://baraholka.onliner.by/viewforum.php?f=788&sk=created",
+        "regexp": "",
+        "tagOfWholeThing": "tr",
+        "property": "",
+        "prefixForLink": "https://baraholka.onliner.by/",
+        "catchThings": [{
+            "selector": "a",
+            "contentRegExp": "viewtopic\\.php\\?t=",
+            "propertyOfElement": "href"
+        }],
+        "avoidThings": [],
+        "propertiesOfElement": [{
+            "nameOfProperty": "link",
+            "selector": "a",
+            "contentRegExp": "viewtopic\\.php\\?t=",
+            "propertyOfElement": "href"
+        }]
+    }
 ]
